@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <title>拼团旅游信息网-景区详情</title>
+    <!--引入logo，css-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/scenic-detail.css}">
+    <link rel="stylesheet" th:href="@{/css/search.css}">
+    <link rel="icon" href="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.png"/>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" crossorigin="anonymous" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+</head>
+
+
+<body>
+
+    <div class="nk-container">
+        <!--引入头部-->
+        <header class="bg-blue sticky-top" style="box-shadow: 0px 0px 8px #2388e7" th:replace="index::header"></header>
+
+        <!--正文-->
+        <div class="page_one">
+            <div class="contant">
+                <div class="row">
+                    <div class="crumbs col-lg-6">
+                        <img th:src="@{/img/search.svg}" alt="景点搜索">
+                        <p>景点 ><span th:text="${scenic.scenicName}">故宫</span></p>
+                    </div>
+                    <div class="col-lg-6 crumbs">
+
+                    </div>
+                </div>
+
+
+
+                <div  style="border-bottom: 2px solid #2388e7; width: 1188px; margin-bottom: 20px; margin-top: 7px" ></div>
+
+                <!-- 详情  -->
+                <div class="wrap">
+
+                    <!--分割线-->
+                    <div class="bread_box"></div>
+
+                    <!--图片与价格信息-->
+                    <div class="prosum_box">
+                        <dl class="prosum_left" style="width: 600px">
+                            <dt id="bigImg">
+                                <img alt="" class="big_img"
+                                     th:src="${scenic.imageUrl}">
+                            </dt>
+                        </dl>
+                        <!--文本信息-->
+                        <div class="prosum_right">
+                            <p class="pros_title"><span id="rname" th:text="${scenic.introduce}">故宫又名紫禁城，是中国乃至世界上保存最完整，规模最大的木质结构古建筑群，被誉为“世界五大宫之首”。</span></p>
+                            <p class="hot"><span id="routeIntroduce" th:text="${scenic.content}">故宫需要从南到北参观，午门是唯一的入口，出口是东华门和神武门。</span></p>
+                            <div class="pros_other">
+                                <p>景点级别  ：<span id="sname" class="text-warning" th:text="${scenic.merchant}">故宫博物院</span></p>
+                                <p>咨询电话 : <span id="consphone" th:text="${scenic.phone}">400-618-9090</span></p>
+                                <p>地址  ：<a th:href="|https://www.amap.com/search?query=${scenic.address}|">
+                                    <span id="address" class="text-primary" th:text="${scenic.address}">北京朝阳区</span></a></p>
+                            </div>
+                            <!--价格信息-->
+                            <div class="pros_price">
+                                <p class="price"><strong>¥ <span id="price" th:text="${scenic.price}">60</span></strong><div id="errorMsg" style="color: red;"></div></p>
+                                <!--收藏-->
+                                <p class="collect" id="collect">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" id="collection" onclick="getCollection();">
+                                        <svg id="svgHeart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                            <path th:if="${collection==null}" fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                            <path th:if="${collection!=null}" d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                        </svg>
+                                        <span id="favorite_span" th:text="${collection==null?'点击收藏':'取消收藏'}">点击收藏</span>
+                                    </button>
+                                    <span style="margin-inside: 10px;margin-left: 3PX">&nbsp;已收藏&nbsp;<span th:text="${collectionCount}" id="favoriteCount">100</span>&nbsp;次</span>
+
+                                    <a th:href="|https://www.amap.com/search?query=${scenic.scenicName}|" class="pull-right" style="margin-left: 40px">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                        </svg>
+                                        <span>去这里</span>
+                                    </a>
+
+                                    <button class="btn btn-sm btn-outline-primary" th:if="${loginUser!=null}"
+                                            data-toggle="modal" data-target="#publishModal" style="margin-left: 20px">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-plus-fill" viewBox="0 0 16 16">
+                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z"/>
+                                        </svg>
+                                        <span>一键拼团</span>
+                                    </button>
+
+                                    <a href="#replyform" type="button" class="btn btn-sm btn-outline-warning" style="margin-left: 20px" th:if="${loginUser!=null}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                        </svg>
+                                        <span >写点评</span>
+                                    </a>
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--旅游须知-->
+                    <div class="you_need_konw">
+                        <div class="jx_top" >
+                            <ul class="jx_tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#popularity" aria-controls="popularity" role="tab" data-toggle="tab">旅游须知</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="notice">
+                            <p th:text="${scenic.notice}" style="white-space: pre-wrap">➤北京故宫大门门票</p>
+                        </div>
+                    </div>
+
+            </div>
+            <div class="comment you_need_konw" th:if="${loginUser!=null}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16" style="color: #ffc107">
+                    <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.734 1.734 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z"/>
+                </svg>
+                <span>点评</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stars warning" viewBox="0 0 16 16" style="color: #ffc107">
+                    <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.734 1.734 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z"/>
+                </svg>
+                <div class="main" style="padding-bottom: 0px">
+                    <div class="container mt-1">
+                    <!-- 回帖数量 -->
+                    <div class="row">
+                        <div class="col-8">
+                            <h6>
+                                <b class="square" style="background: #ffc107"></b>
+                                <i th:text="${scenicCommentCount}">30</i>条点评</h6>
+                        </div>
+                        <div class="col-4 text-right"  if="" >
+                            <a href="#replyform" class="btn btn-warning btn-sm" >&nbsp;&nbsp;点&nbsp;&nbsp;评&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                    <!-- 回帖列表 -->
+                    <ul class="list-unstyled mt-4">
+                        <!-- 第1条回帖 -->
+                        <li class="media pb-3 pt-3 mb-3 border-bottom" th:each="comments:${commentList}">
+                            <a >
+                                <img th:src="${comments.user.headerUrl}"  class="align-self-start mr-4 rounded-circle user-header" alt="用户头像" >
+                            </a>
+                            <div class="media-body">
+                                <div class="mt-0">
+                                    <span class="font-size-12 text-warning" th:text="${comments.user.username}">掉脑袋切切</span>
+                                    <span class="badge badge-primary badge-pill float-right floor" >
+                                        <i th:text="${page.offset + commentsStat.count}">1</i>
+                                    </span>
+                                </div>
+                                <div class="mt-2" th:text="${comments.comment.content}">
+                                    这个景点真美啊。。。
+                                </div>
+                                <div class="mt-4 text-muted font-size-12">
+                                    <span>发布于 <b th:text="${#dates.format(comments.comment.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 15:32:18</b></span>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                     <!--分页-->
+                    <nav class="mt-5" th:if="${page.rows>0}">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==1?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a>
+                            </li>
+                            <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+                                <a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                    <!-- 回帖输入 -->
+                    <div class="container mt-3">
+                        <form class="replyform" method="post" th:action="@{/comment/addScenicComment}">
+                            <p class="mt-3 font-size-18">
+                                <a name="replyform"></a>
+                                <textarea name="content" placeholder="在这里畅所欲言你的看法吧!" style="width: 920px;" rows="8" required></textarea>
+                                <input type="hidden" name="entityType" th:value="4">
+                                <input type="hidden" name="entityId" th:value="${scenic.id}">
+                                <input type="hidden" name="CommentCount" >
+                            </p>
+                            <p class="text-right">
+                                <button type="submit" class="btn btn-outline-warning btn-smy">&nbsp;&nbsp;点&nbsp;&nbsp;评&nbsp;&nbsp;</button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="publishModalLabel">拼旅帖</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">标题：</label>
+                                <input type="text" name="title" class="form-control" id="recipient-name" th:value="|我想要去${scenic.scenicName}，想要去的小伙伴，尽快联系我！|">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">正文：</label>
+                                <textarea name="content" class="form-control" id="message-text" rows="7"
+                                          th:text="|有人说：“人生至少要有两次冲动：一场奋不顾身的爱情和一段走就走的旅行”&#10;来吧，联系我，来一场说走就走的旅行。我在 ${scenic.scenicName} 与你相约！|"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" id="publishBtn">发布</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 提示框 -->
+        <div class="modal fade" id="hintModal" tabindex="-1" role="dialog" aria-labelledby="hintModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="hintModalLabel">提示</h5>
+                    </div>
+                    <div class="modal-body" id="hintBody">
+                        发布完毕!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div style="height:200px"></div>
+    <!--尾部-->
+    <div id="footer" th:replace="index::footer"></div>
+</div>
+
+    <!--引入js-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/discuss.js}"></script>
+    <script th:src="@{/js/global.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script th:src="@{/js/scenicDetail.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js/}"></script>
+
+</body>
+</html>

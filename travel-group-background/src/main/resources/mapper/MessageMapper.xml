@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuchen.travel.background.mapper.MessageMapper">
+    <!--查询消息-->
+    <select id="selectMessageList" resultType="Message">
+        SELECT id, from_id, to_id, conversation_id, content, status, create_time
+        FROM message
+        WHERE to_id = #{userId} AND conversation_id NOt IN('comment', 'follow', 'like')
+        <if test="status!=null">
+            AND status = #{status}
+        </if>
+        ORDER BY create_time ASC
+        limit #{offset}, #{limit};
+    </select>
+    <!--查询消息信息数量-->
+    <select id="selectMessageCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM message
+        WHERE to_id = #{userId} AND conversation_id NOt IN('comment', 'follow', 'like')
+        <if test="status!=null">
+            AND status = #{status}
+        </if>
+        ORDER BY create_time ASC;
+    </select>
+    <!--修改消息状态-->
+    <update id="updateStatus">
+        UPDATE message SET status = #{status}
+        WHERE id = #{id};
+    </update>
+
+</mapper>

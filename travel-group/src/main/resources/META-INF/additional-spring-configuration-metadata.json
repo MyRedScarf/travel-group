@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "travel.path.upload",
+      "type": "java.lang.String",
+      "description": "Description for travel.path.upload."
+  }
+] }

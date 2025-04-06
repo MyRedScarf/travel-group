@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!--引入logo，css-->
+	<link rel="icon" href="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.png"/>
+
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" crossorigin="anonymous" />
+	<link rel="stylesheet" th:href="@{/css/global.css}" />
+	<link rel="stylesheet" th:href="@{/css/login.css}" />
+	<title>拼团旅游信息网-注册</title>
+</head>
+
+<body>
+	<div class="nk-container">
+		<!-- 头部 -->
+		<header class="bg-white sticky-top" style="box-shadow: 0px 0px 8px #dbdada" th:replace="index::header">
+
+		</header>
+
+
+		<!-- 内容 -->
+		<div class="container " style="margin-top: 30px; background-color: white;  width: 600px;">
+
+			<div class="row ml-0 mr-0 " style>
+				<!--二维码-->
+				<div class="col-md-4" style="background-color: #2388e7;">
+					<img th:src="@{https://logo-1304336794.cos.ap-nanjing.myqcloud.com/%E4%BC%8F%E8%BE%B0%E5%85%AC%E4%BC%97%E5%8F%B7.jpg}" draggable="false"
+						 style="width: 130px; margin-left: 19px;margin-top: 50px;" />
+					<p style="margin-bottom: 0px;margin-top: 10px;margin-left: 20px;color: white;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;扫码关注</p>
+					<p style="margin-bottom: 0px;margin-top: 10px;margin-left: 20px;color: white;">&nbsp【伏辰拼团旅游网】</p>
+					<div style="margin-left: 50px;color: white;">&nbsp;&nbsp;&nbsp;公众号</div>
+				</div>
+				<!--注册-->
+				<div class="col-md-8 mb-4">
+					<!--注册表单-->
+					<form class="ml-5 mr-5 " method="post" th:action="@{/register}">
+						<div class="form-group "></div>
+						<!--切换登录框-->
+						<div class="form-group ">
+							<div class="pl-2 pt-1 pb-1"
+								style="margin-bottom: 30px; margin-top: 20px; margin-left: 80px;background-color:#eeeeee ;width: 120px; border-Radius : 3px;">
+								<a type="button" th:href="@{/register}" class="btn  btn-sm" style="height: 27px;background-color: white;">注册</a>
+								<a type="button" th:href="@{/login}"class="btn  btn-sm"
+									style="height: 27px;">登录</a>
+							</div>
+						</div>
+						<!--账号-->
+						<div class="form-group row">
+							<label for="username" style="margin-top: 9px;">账号：</label>
+							<div class="col-sm-10">					
+								<input type="text" th:class="|form-control ${usernameMsg!=null?'is-invalid':''}|"
+									   th:value="${user!=null?user.username:''}" id="username" name="username" placeholder="请输入您的账号" required>
+								<div class="invalid-feedback" th:text="${usernameMsg}">
+									该账号已存在!
+								</div>
+							</div>
+						</div>
+						<!--密码-->
+						<div class="form-group row">
+							<label for="password" style="margin-top: 9px;">密码：</label>
+							<div class="col-sm-10">
+								<input type="password"  th:class="|form-control ${passwordMsg!=null?'is-invalid':''}|"
+									   th:value="${user!=null?user.password:''}"
+									   id="password" name="password" placeholder="请输入您的密码" required>
+								<div class="invalid-feedback" th:text="${passwordMsg}">
+									密码长度不能小于8位!
+								</div>	
+							</div>
+						</div>
+						<!--再次输入-->
+						<div class="form-group row">
+							<label for="confirm-password" style="margin-top: 9px;">确认：</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" th:value="${user!=null?user.password:''}"
+									   id="confirm-password" placeholder="请再次输入密码" required>
+								<div class="invalid-feedback">
+									两次输入的密码不一致!
+								</div>
+							</div>
+						</div>
+						<!--邮箱-->
+						<div class="form-group row">
+							<label for="email" style="margin-top: 9px;">邮箱：</label>
+							<div class="col-sm-10">
+								<input type="email" th:class="|form-control ${emailMsg!=null?'is-invalid':''}|"
+									   th:value="${user!=null?user.email:''}"
+									   id="email" name="email" placeholder="请输入您的邮箱" required>
+								<div class="invalid-feedback">
+									该邮箱已注册!
+								</div>
+							</div>
+						</div>
+
+						<!--注册按钮-->
+						<div class="form-group">
+							<div class="text-center">
+								<button type="submit" class="btn btn-customColor text-white form-control">立即注册</button>
+							</div>
+						</div>
+
+					</form>
+					<!--表单结束-->
+				</div>
+			</div>
+		</div>
+
+
+		<div style="height:200px"></div>
+		<!-- 尾部 -->
+		<footer class="bg-blue" th:replace="index::footer"></footer>
+	</div>
+
+	<!--引入js-->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		crossorigin="anonymous"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/global.js}"></script>
+
+</body>
+
+</html>

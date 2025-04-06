@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>拼旅攻略-发布</title>
+    <link rel="stylesheet" th:href="@{/editor.md/css/editormd.min.css}">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script th:src="@{/editor.md/lib/marked.min.js}"></script>
+    <script th:src="@{/editor.md/lib/prettify.min.js}"></script>
+    <script th:src="@{/editor.md/editormd.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/base/vendor.bundle.base.css}">
+</head>
+<body>
+    <div class="container-scroller">
+        <header th:replace="index::header">
+            <!-- partial:../../partials/_navbar.html -->
+            <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+                <div class="navbar-brand-wrapper d-flex justify-content-center">
+                    <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
+                        <a class="navbar-brand brand-logo" href="../../index.html"><img src="../../images/logo.svg" alt="logo"/></a>
+                        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+                        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                            <span class="mdi mdi-sort-variant"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                    <ul class="navbar-nav mr-lg-4 w-100">
+                        <li class="nav-item nav-search d-none d-lg-block w-100">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                    <span class="input-group-text" id="search">
+                      <i class="mdi mdi-magnify"></i>
+                    </span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Search now" aria-label="search" aria-describedby="search">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li class="nav-item dropdown me-1">
+                            <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-bs-toggle="dropdown">
+                                <i class="mdi mdi-message-text mx-0"></i>
+                                <span class="count"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="messageDropdown">
+                                <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
+                                <a class="dropdown-item">
+                                    <div class="item-thumbnail">
+                                        <img src="../../images/faces/face4.jpg" alt="image" class="profile-pic">
+                                    </div>
+                                    <div class="item-content flex-grow">
+                                        <h6 class="ellipsis font-weight-normal">David Grey
+                                        </h6>
+                                        <p class="font-weight-light small-text text-muted mb-0">
+                                            The meeting is cancelled
+                                        </p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item">
+                                    <div class="item-thumbnail">
+                                        <img src="../../images/faces/face2.jpg" alt="image" class="profile-pic">
+                                    </div>
+                                    <div class="item-content flex-grow">
+                                        <h6 class="ellipsis font-weight-normal">Tim Cook
+                                        </h6>
+                                        <p class="font-weight-light small-text text-muted mb-0">
+                                            New product launch
+                                        </p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item">
+                                    <div class="item-thumbnail">
+                                        <img src="../../images/faces/face3.jpg" alt="image" class="profile-pic">
+                                    </div>
+                                    <div class="item-content flex-grow">
+                                        <h6 class="ellipsis font-weight-normal"> Johnson
+                                        </h6>
+                                        <p class="font-weight-light small-text text-muted mb-0">
+                                            Upcoming board meeting
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown me-4">
+                            <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
+                                <i class="mdi mdi-bell mx-0"></i>
+                                <span class="count"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
+                                <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+                                <a class="dropdown-item">
+                                    <div class="item-thumbnail">
+                                        <div class="item-icon bg-success">
+                                            <i class="mdi mdi-information mx-0"></i>
+                                        </div>
+                                    </div>
+                                    <div class="item-content">
+                                        <h6 class="font-weight-normal">Application Error</h6>
+                                        <p class="font-weight-light small-text mb-0 text-muted">
+                                            Just now
+                                        </p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item">
+                                    <div class="item-thumbnail">
+                                        <div class="item-icon bg-warning">
+                                            <i class="mdi mdi-settings mx-0"></i>
+                                        </div>
+                                    </div>
+                                    <div class="item-content">
+                                        <h6 class="font-weight-normal">Settings</h6>
+                                        <p class="font-weight-light small-text mb-0 text-muted">
+                                            Private message
+                                        </p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item">
+                                    <div class="item-thumbnail">
+                                        <div class="item-icon bg-info">
+                                            <i class="mdi mdi-account-box mx-0"></i>
+                                        </div>
+                                    </div>
+                                    <div class="item-content">
+                                        <h6 class="font-weight-normal">New user registration</h6>
+                                        <p class="font-weight-light small-text mb-0 text-muted">
+                                            2 days ago
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item nav-profile dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
+                                <img src="../../images/faces/face5.jpg" alt="profile"/>
+                                <span class="nav-profile-name">Louis Barnett</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                                <a class="dropdown-item">
+                                    <i class="mdi mdi-settings text-primary"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item">
+                                    <i class="mdi mdi-logout text-primary"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                        <span class="mdi mdi-menu"></span>
+                    </button>
+                </div>
+            </nav>
+            <!-- partial -->
+            <!-- page-body-wrapper ends -->
+        </header>
+        <div class="container-fluid page-body-wrapper">
+
+            <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="index::headerPanel"></nav>
+            <div class="main-panel">
+                <form method="post">
+                    <div id="editor">
+
+                    </div>
+                    <textarea style="display: none" name="editorText" id="txtIntro"></textarea>
+                </form>
+                <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#addIntroductionModal">
+                    &nbsp;提&nbsp;&nbsp;交&nbsp;
+                </button>
+                <!--<div class="content-wrapper">-->
+                <!--    <div class="row">-->
+
+                <!--        -->
+                <!--    </div>-->
+                <!--</div>-->
+                <footer class="footer" th:replace="index::footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="https://www.bootstrapdash.com/" target="_blank">bootstrapdash.com </a>2021</span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a href="https://www.bootstrapdash.com/" target="_blank"> Bootstrap dashboard  </a> templates</span>
+                    </div>
+                </footer>
+            </div>
+    </div>
+</div>
+
+    <div class="modal fade" id="addIntroductionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">选择景点</h5>
+                    <button type="button" class="btn btn-sm btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form class="forms-sample" id="addIntroduction"  enctype="multipart/form-data" method="post" th:action="@{/addIntroduction}">
+                        <div class="row">
+                            <!--<div class="form-group row col-md-6">-->
+                            <!--    <label for="address" class="col-sm-3 col-form-label">主题：</label>-->
+                            <!--    <select name="selectList" class="col-sm-9" style="height: 40px">-->
+                            <!--        <option>18岁以下</option>-->
+                            <!--        <option>18-28岁</option>-->
+                            <!--        <option>28-38岁</option>-->
+                            <!--        <option>38岁以上</option>-->
+                            <!--    </select>-->
+
+                            <!--</div>-->
+                            <div class="form-group row col-md-12">
+                                <label for="title" class="col-sm-1 col-form-label">主题：</label>
+                                <div class="col-sm-11">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="" required>
+                                    <div class="invalid-feedback" id="titleMsg"></div>
+                                    <textarea hidden style="display: none" name="editorText" id="textIntro"></textarea>                                    <div class="invalid-feedback" id="addressMsg"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>封面：</label>
+                                <input type="file" name="introductionImg" class="file-upload-default" id="introductionImg" required>
+                                <div class="input-group col-xs-12">
+                                    <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image" required>
+                                    <div class="invalid-feedback" id="introductionImgMsg"></div>
+                                    <span class="input-group-append">
+                                        <button class="file-upload-browse btn btn-primary" type="button">上传文件</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="submit" id="getMarkdown" class="btn btn-primary">立即保存</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        var editor = editormd("editor", {
+            // 这里的尺寸必须在这里设置，设置样式会被 editormd 自动覆盖
+            width: "100%",
+            // 设置高度
+            height: "500px",
+            // 编辑器中初始内容
+            markdown: "# 拼旅指南",
+            //注意：这个配置，方便post提交表单
+            saveHTMLToTextarea : true,
+            // 指定插件路径
+            path: "editor.md/lib/",
+
+        });
+
+        //提交后判断title是否为空，为空则返回
+        $("#getMarkdown").click(function() {
+            let title = $("#title").val();
+            $("#title").removeClass("is-invalid");
+            if (title == "") {
+                $("#title").addClass("is-invalid");
+                $("#titleMsg").text("请输入主题名称!");
+                return;
+            }
+            //获取富文本的md格式的信息，赋值给隐藏的文本域，一并提交后端
+            $("#textIntro").text(editor.getMarkdown());
+        });
+    </script>
+
+
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script th:src="@{/vendors/base/vendor.bundle.base.js}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script th:src="@{/js/off-canvas.js}"></script>
+<script th:src="@{/js/hoverable-collapse.js}"></script>
+<script th:src="@{/js/template.js}"></script>
+
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/file-upload.js}"></script>
+<script th:src="@{/js/md-submit.js}"></script>
+<!-- End custom js for this page-->
+
+</body>
+</html>

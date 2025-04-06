@@ -1,0 +1,154 @@
+########################################################
+#
+# 服务配置
+#
+########################################################
+server:
+  port: 8001                                           # 服务端口
+  servlet:
+    context-path: /travel                              # 访问路径
+########################################################
+#
+# Spring相关配置
+#
+########################################################
+spring:
+  application:
+    name: travel-group
+  ######################################################
+  # 数据源配置
+  ######################################################
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver        # 数据库驱动
+    url: jdbc:mysql://localhost:3306/travel_group      # 数据库地址
+    username: root                                     # 用户名
+    password: 123456                                   # 密码
+    type: com.zaxxer.hikari.HikariDataSource           # 数据源
+  ######################################################
+  # Redis配置
+  ######################################################
+  redis:
+    host: localhost                                    # Redis连接地址
+    port: 6379                                         # Redis连接端口
+    database: 0                                        # Redis存储数据区
+  ######################################################
+  # Mail配置
+  ######################################################
+  mail:
+    host: smtp.126.com                                 # 邮箱主机地址
+    port: 465                                          # 邮箱主机端口
+    username: fuchen1024@126.com                       # 邮箱账号
+    password: XMRFVQSFMZUWJCPP                         # 邮箱授权码
+    protocol: smtps                                    # 连接类型
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+  ######################################################
+  # Kafka配置
+  ######################################################
+  kafka:
+    bootstrap-servers: localhost:9092                  # Kafka访问路径
+    consumer:
+      group-id: test-consumer-group
+      enable-auto-commit: true
+      auto-commit-interval: 3000
+  ######################################################
+  # Task配置
+  ######################################################
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 15
+        queue-capacity: 100
+    scheduling:
+      pool:
+        size: 5
+  ######################################################
+  # Quartz配置
+  ######################################################
+#  quartz:
+#    job-store-type: jdbc
+#    scheduler-name: travelScheduler
+#    properties:
+#      org:
+#        quartz:
+#          scheduler:
+#            instanceId: auTO
+#          jobStore:
+#            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+#            driverDelegateClass: org.quartz.impl.jdbcjobstore.StbJDBCDelegate
+#            isClustered: true
+#          threadPool:
+#            class: org.quartz.simpl.SimpleThreadPool
+#            threadCount: 5
+  ######################################################
+  # 热启动配置
+  ######################################################
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: /
+  ######################################################
+  # 缓存配置
+  ######################################################
+  thymeleaf:
+    cache: false                                       # thymeleaf缓存
+  freemarker:
+    cache: false                                       # freemarker缓存
+########################################################
+#
+# Mybatis配置
+#
+########################################################
+mybatis:
+  mapper-locations: classpath:mapper/*.xml             # mapper文件路径
+  type-aliases-package: com.fuchen.travel.entity       # 开启驼峰命名
+  configuration:
+    use-generated-keys: true                           #
+    map-underscore-to-camel-case: true                 #
+    use-actual-param-name: true                        #
+########################################################
+#
+# caffeine配置
+#
+########################################################
+caffeine:
+  posts:
+    max-size: 15
+  expire-seconds: 180
+########################################################
+#
+# 腾讯云对象存储配置
+#
+########################################################
+qcloud:
+  ######################################################
+  # OSS连接配置配置
+  ######################################################
+  key:
+    appId:                                   # 应用Id
+    secretId:      # 机密Id
+    secretKey:         # 机密钥匙
+  ######################################################
+  # OSS存储桶配置
+  ######################################################
+  bucket:
+    header:
+      name:                # 头像图片存储桶名称
+      url:   # 存储桶地址
+    scenic:
+      name:                # 景点图片存储桶名称
+      url:   # 存储桶地址
+    cosRegion:                               # OSS地点
+########################################################
+#
+# 常量配置
+#
+########################################################
+user:
+  path:
+    headerUrl: https://default-face-1304336794.cos.ap-nanjing.myqcloud.com/face2.jpg  # 默认头像

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuchen.travel.mapper.ScenicMapper">
+
+    <!--查询所有景点信息-->
+    <select id="selectAllScenic" resultType="Scenic">
+        select id, scenic_name, introduce, content, image_url, price
+        from scenic
+        where status != 2
+        limit #{offset}, #{limit};
+    </select>
+
+    <!--根据id查询景点信息-->
+    <select id="selectScenicById" resultType="Scenic">
+        select id, scenic_name, introduce, content, image_url, notice, price, merchant, phone, address
+        from scenic
+        where id = #{id} and status != 2;
+    </select>
+
+    <!--查询所有景点的个数-->
+    <select id="selectScenicCountAll" resultType="Integer">
+        select count(*)
+        from scenic
+        where status != 2
+    </select>
+
+    <!--通过景区名称查询景点信息-->
+    <select id="selectScenicByScenicName" resultType="Scenic">
+        SELECT id, scenic_name, introduce, content, image_url, notice, price, address, create_time
+        FROM scenic
+        WHERE scenic_name LIKE "%"#{scenicName}"%" AND status != 2
+        LIMIT #{offset}, #{limit};
+    </select>
+
+    <!-- 根据关键字查询景区数量 -->
+    <select id="selectToScenicCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM scenic
+        where scenic_name LIKE "%"#{keyword}"%" AND status != 2;
+    </select>
+    <!--查询推荐的景点-->
+    <select id="selectScenicRe" resultType="Scenic">
+        SELECT id, scenic_name, introduce, content, image_url, notice, price, address, create_time, status
+        FROM scenic
+        WHERE status = 1;
+    </select>
+</mapper>

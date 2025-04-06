@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 项目依赖模块 -->
+    <modules>
+        <module>travel-group</module>
+        <module>travel-group-background</module>
+    </modules>
+
+    <!-- SpringBoot顶层依赖 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.3.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <!-- 项目坐标 -->
+    <groupId>com.fuchen</groupId>
+    <artifactId>travel</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>travel</name>
+    <description>拼团旅游信息管理平台父工程</description>
+
+    <!-- 项目依赖版本管理 -->
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
+        <caffeine.version>2.7.0</caffeine.version>
+        <org-thymeleaf.version>3.0.4.RELEASE</org-thymeleaf.version>
+        <spring-kafka.version>2.2.4.RELEASE</spring-kafka.version>
+        <fastjson.version>1.2.29</fastjson.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
+        <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
+        <mysql-connector-java.version>8.0.27</mysql-connector-java.version>
+        <lombok.version>1.18.6</lombok.version>
+        <mybatis-plus.version>3.4.2</mybatis-plus.version>
+        <junit.verison>4.13.2</junit.verison>
+        <qcloud.version>5.6.35</qcloud.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <!-- 配置 <dependencyManagement> 锁定依赖的版本 -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!--<dependency>-->
+            <!--    <groupId>org.springframework.boot</groupId>-->
+            <!--    <artifactId>spring-boot-dependencies</artifactId>-->
+            <!--    <version>${spring-boot.version}</version>-->
+            <!--    <type>pom</type>-->
+            <!--    <scope>import</scope>-->
+            <!--</dependency>-->
+
+            <!--SpringSecurity依赖-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!--Spring整合Kafka-->
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring-kafka.version}</version>
+            </dependency>
+
+            <!--Spring整合Redis-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!--SpringMail-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!--SpringAOP-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!--Spring整合Thymeleaf-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!--SpringWeb-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!--SpringQuartz-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-quartz</artifactId>
+                <version>2.2.3.RELEASE</version>
+            </dependency>
+
+            <!--Mybatis整合Spring-->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!-- SpringTest -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.junit.vintage</groupId>
+                        <artifactId>junit-vintage-engine</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- SpringDevtools热启动 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!--fastjson-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- 验证码依赖 -->
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+
+            <!-- commons-lang3工具依赖 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <!-- mysql驱动依赖 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+            </dependency>
+
+            <!-- caffeine缓存依赖 -->
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
+            </dependency>
+
+            <!-- thymeleaf模板引擎依赖 -->
+            <dependency>
+                <groupId>org.thymeleaf.extras</groupId>
+                <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+                <version>${org-thymeleaf.version}</version>
+            </dependency>
+
+            <!-- quartz依赖 -->
+            <!--<dependency>-->
+            <!--    <groupId>org.quartz-scheduler</groupId>-->
+            <!--    <artifactId>quartz</artifactId>-->
+            <!--    <version>${org.quartz-scheduler.version}</version>-->
+            <!--</dependency>-->
+
+            <!-- junit测试依赖 -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.verison}</version>
+            </dependency>
+
+            <!-- lombok依赖 -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
+            </dependency>
+
+            <!-- 腾讯云对象存储依赖 -->
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos_api-bundle</artifactId>
+                <version>${qcloud.version}</version>
+            </dependency>
+
+            <!--<dependency>-->
+            <!--	<groupId>com.baomidou</groupId>-->
+            <!--	<artifactId>mybatis-plus-boot-starter</artifactId>-->
+            <!--	<version>${mybaits-plus.version}</version>-->
+            <!--</dependency>-->
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

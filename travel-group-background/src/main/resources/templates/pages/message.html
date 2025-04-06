@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>消息-私信</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/base/vendor.bundle.base.css}">
+
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!--  <link rel="stylesheet" href="../../css/bootstrap.css">-->
+    <!-- endinject -->
+    <link rel="shortcut icon" href="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.ico" />
+</head>
+
+<body>
+<div class="container-scroller">
+    <header th:replace="index::header"></header>
+    <!-- 偏置导航 -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 正文部分 -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="index::headerPanel"></nav>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">消息列表</h4>
+                                <div class="input-group">
+                                <form method="get" th:action="@{/message}">
+                                    <input type="hidden" name="status" value="0">
+                                    <button type="submit" class="btn btn-inverse-danger me-3 mt-2 mt-xl-0">未读</button>
+                                </form>
+                                <form method="get" th:action="@{/message}">
+                                    <input type="hidden" name="status" value="1">
+                                    <button type="submit" class="btn btn-inverse-success  me-3 mt-2 mt-xl-0">已读</button>
+                                </form>
+                                </div>
+                                <div class="list-group list-group-flush" th:each="messages:${messageList}">
+                                    <hr style="height: 1px">
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-start">
+                                            <h5 class="mb-3 text-black font-weight-bold">
+                                                <a onclick="updateStatus()" type="button">
+                                                    <span id="badge"  th:class="|badge badge-pill text-white ${messages.message.status==0?'badge-danger':'badge-success'}|" th:text="${messages.message.status==0?'未读':'已读'}">未读</span>
+                                                    <input type="hidden" id="status" th:value="${messages.message.status}">
+                                                    <input type="hidden" id="id" th:value="${messages.message.id}">
+                                                </a>
+                                                &nbsp;|&nbsp;用户：<span th:text="${messages.user.username}">Fuchen</span></h5>
+                                        </div>
+                                        <form method="get" th:action="@{/send-email}">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <p class="mb-3 text-muted" style="margin-left: 50px;font-size: 16px" th:text="${messages.message.content}">系统需要优化</p>
+                                            <input type="hidden" name="email" th:value="${messages.user.email}">
+                                            <button type="submit" class="btn btn-sm btn-inverse-primary mb-2">写邮件</button>
+                                        </div>
+                                        </form>
+                                        <small class="font-weight-lighter" style="margin-left: 50px;">用户ID：<span class="text-primary" th:text="${messages.message.fromId}">1</span></small>
+                                        <small class="font-weight-lighter">&nbsp;&nbsp;|&nbsp;&nbsp;<span class="text-primary" th:text="${#dates.format(messages.message.createTime,'yyyy-MM-dd HH:mm:ss')}">2022-12-01 17:54:04</span></small>
+                                    </div>
+
+                                </div>
+                                <!-- 分页 -->
+                                <nav class="mt-5" th:if="${page.rows>0}">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item">
+                                            <a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+                                        </li>
+                                        <li th:class="|page-item ${page.current==1?'disabled':''}|">
+                                            <a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a>
+                                        </li>
+                                        <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+                                            <a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+                                        </li>
+                                        <li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+                                            <a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <footer class="footer" th:replace="index::footer">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="https://www.bootstrapdash.com/" target="_blank">bootstrapdash.com </a>2021</span>
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a href="https://www.bootstrapdash.com/" target="_blank"> Bootstrap dashboard  </a> templates</span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+
+
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script th:src="@{/vendors/base/vendor.bundle.base.js}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script th:src="@{/js/off-canvas.js}"></script>
+<script th:src="@{/js/hoverable-collapse.js}"></script>
+<script th:src="@{/js/template.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/message.js}"></script>
+
+
+
+<!-- endinject -->
+<!-- Custom js for this page-->
+<!-- End custom js for this page-->
+</body>
+
+</html>

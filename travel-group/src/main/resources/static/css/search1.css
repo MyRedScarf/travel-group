@@ -1,0 +1,16 @@
+.page_num_inf {
+  color: #878787;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.page_num_inf span {
+  color: #ff4848;
+}
+.page_one .xinxi .left .page_num_inf i {
+  float: left;
+  width: 4px;
+  background-color: #878787;
+  height: 20px;
+  margin-top: 5px;
+  margin-right: 10px;
+}

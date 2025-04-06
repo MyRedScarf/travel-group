@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuchen.travel.mapper.FavoriteMapper">
+
+    <!--用户收藏景点-->
+    <insert id="insertCollection">
+        insert into favorite (user_id, scenic_id, create_time)
+        values (#{userId}, #{scenicId}, #{createTime});
+    </insert>
+
+    <!--查询用户指定的景点-->
+    <select id="selectByUserIdAndScenicId" resultType="Favorite">
+        select id, user_id, scenic_id, create_time
+        from favorite
+        where user_id = #{userId} and scenic_id = #{scenicId};
+    </select>
+
+    <!--删除用户指定景点收藏信息-->
+    <delete id="deleteCollection">
+        delete
+        from favorite
+        where user_id = #{userId} and scenic_id = #{scenicId}
+    </delete>
+
+    <!--查询景点收藏次数-->
+    <select id="selectCollectionCount" resultType="Integer">
+        select count(*) from favorite where scenic_id = #{scenicId}
+    </select>
+
+    <!--查询收藏次数大的四个收藏信息-->
+    <select id="selectCollectionByCount" resultType="Scenic">
+        SELECT scenic.id, scenic_name, introduce, content, image_url, notice, price, merchant, phone, address, scenic.create_time
+        FROM scenic,favorite
+        WHERE scenic.id = favorite.scenic_id AND scenic.status != 2
+        GROUP BY favorite.scenic_id
+        ORDER BY COUNT(favorite.scenic_id) DESC
+        LIMIT #{offset},#{limit};
+    </select>
+
+    <!--查询用户的收藏景点信息-->
+    <select id="selectCollectionAllByUserId" resultType="Scenic">
+        SELECT scenic.id, scenic_name, introduce, content, image_url, notice, price, merchant, phone, address, favorite.create_time
+        FROM scenic, favorite
+        WHERE scenic.id = favorite.scenic_id AND scenic.status != 2
+        AND favorite.user_id = #{userId}
+        ORDER BY favorite.create_time DESC
+        LIMIT #{offset}, #{limit};
+    </select>
+
+    <!--查询用户收藏景点的个数-->
+    <select id="selectCollectionCountByUserId" resultType="Integer">
+        SELECT COUNT(*)
+        FROM favorite
+        WHERE user_id = #{userId};
+    </select>
+
+    <!--查询所有用户收藏景点个数-->
+    <select id="selectCollectionCountAll" resultType="Integer">
+        SELECT COUNT(DISTINCT scenic_id)
+        FROM favorite;
+    </select>
+</mapper>

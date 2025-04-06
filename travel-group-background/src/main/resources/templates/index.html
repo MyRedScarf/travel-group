@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>拼团旅游信息管理后台-首页</title>
+    <!-- 引入插件css -->
+    <link rel="stylesheet" th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/base/vendor.bundle.base.css}">
+    <!-- 引入数据表css -->
+    <link rel="stylesheet" th:href="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.css}">
+    <!-- 引入自定义css -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- 引入logo -->
+    <link rel="shortcut icon" href="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.ico" />
+</head>
+<body>
+<div class="container-scroller">
+    <!-- 头部 -->
+    <header th:fragment="header">
+        <!-- 头部信息 -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <!-- logo信息 -->
+            <div class="navbar-brand-wrapper d-flex justify-content-center">
+                <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
+                    <a class="navbar-brand brand-logo" th:href="@{/index}"><img src="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.png" alt="logo"/></a>
+                    <a class="navbar-brand brand-logo-mini" th:href="@{/index}"><img src="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.png" alt="logo"/></a>
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                        <span class="mdi mdi-sort-variant"></span>
+                    </button>
+                </div>
+            </div>
+            <!-- 搜索栏和用户信息栏 -->
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                <!--搜索框-->
+                <ul class="navbar-nav mr-lg-4 w-100">
+                    <li class="nav-item nav-search d-none d-lg-block w-100">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="search">
+                                  <i class="mdi mdi-magnify"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="请输入关键词" aria-label="search" aria-describedby="search">
+                        </div>
+                    </li>
+                </ul>
+                <!--用户信息-->
+                <ul class="navbar-nav navbar-nav-right">
+
+                    <!--用户头像和其他操作-->
+                    <li class="nav-item nav-profile dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
+                            <img th:src="${loginUser.headerUrl}" alt="profile"/>
+                            <span class="nav-profile-name" th:text="${loginUser.username}">Fuchen</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" th:href="@{/setting}">
+                                <i class="mdi mdi-settings text-primary"></i>
+                                账户设置
+                            </a>
+                            <a class="dropdown-item" th:href="@{/logout}">
+                                <i class="mdi mdi-logout text-primary"></i>
+                                退出登录
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <!--导航栏缩放按钮-->
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+    <!--头部结束-->
+
+    <!-- 主体 -->
+    <div class="container-fluid page-body-wrapper" >
+        <!-- 导航栏 -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar" th:fragment="headerPanel">
+            <ul class="nav">
+                <!-- 主页 -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">
+                        <i class="mdi mdi-home menu-icon"></i>
+                        <span class="menu-title">主页</span>
+                    </a>
+                </li>
+                <!-- 用户管理 -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/user-control}">
+                        <i class="mdi mdi-account menu-icon"></i>
+                        <span class="menu-title">用户管理</span>
+                    </a>
+                </li>
+                <!-- 景点管理 -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/scenic-control}">
+                        <i class="mdi mdi-eye menu-icon"></i>
+                        <span class="menu-title">景点管理</span>
+                    </a>
+                </li>
+                <!-- 帖子管理 -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/discuss-post-control}">
+                        <i class="mdi mdi-comment-outline menu-icon"></i>
+                        <span class="menu-title">帖子管理</span>
+                    </a>
+                </li>
+                <!-- 消息下拉列表 -->
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#message" aria-expanded="false" aria-controls="message">
+                        <i class="mdi mdi-email-outline menu-icon"></i>
+                        <span class="menu-title">消息</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <!-- 私信和发邮件 -->
+                    <div class="collapse" id="message">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/message}">私信</a></li>
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/send-email}">邮件</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <!--意见反馈-->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/feedback}">
+                        <i class="mdi mdi-file menu-icon"></i>
+                        <span class="menu-title">意见反馈</span>
+                    </a>
+                </li>
+                <!--拼旅攻略-->
+                <!-- 消息下拉列表 -->
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#introduction" aria-expanded="false" aria-controls="message">
+                        <i class="mdi mdi-translate menu-icon"></i>
+                        <span class="menu-title">拼旅攻略</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <!-- 私信和发邮件 -->
+                    <div class="collapse" id="introduction">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/introduction}">发布</a></li>
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/introductionList}">攻略</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- 个人信息 -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/setting}">
+                        <i class="mdi mdi-account-card-details menu-icon"></i>
+                        <span class="menu-title">个人信息</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- 导航栏结束-->
+        <!-- 主面板 -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <!-- 欢迎文本 -->
+                    <div class="col-md-2 grid-margin  ">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <div class="d-flex align-items-end flex-wrap ">
+                                <div class="me-md-3 me-xl-5">
+                                    <h2 class="text-center" style="margin-top: 10px">欢迎回来,</h2>
+                                    <h2 th:text="${loginUser.username}">Fuchen</h2>
+                                    <br>
+                                    <p class="mb-md-0">拼团旅游信息管理后台</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 统计面板 -->
+                    <div class="col-md-10 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body dashboard-tabs p-0">
+                                <!-- 统计板主题 -->
+                                <ul class="nav nav-tabs px-4" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">概述</a>
+                                    </li>
+                                </ul>
+                                <!-- 统计板 -->
+                                <div class="tab-content py-0 px-0">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                                        <div class="d-flex flex-wrap justify-content-xl-between">
+                                            <!-- 当日日期 -->
+                                            <div class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                                <i class="mdi mdi-calendar-heart icon-lg me-3 text-primary"></i>
+                                                <div class="d-flex flex-column justify-content-around">
+                                                    <small class="mb-1 text-muted">日期</small>
+                                                    <h5 class="mb-0 d-inline-block" th:text="${#dates.format(nowDate,'yyyy-MM-dd')}">2018-07-26</h5>
+                                                </div>
+                                            </div>
+                                            <!-- 注册用户数量 -->
+                                            <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                                <i class="mdi mdi-account-plus me-3 icon-lg text-success"></i>
+                                                <div class="d-flex flex-column justify-content-around">
+                                                    <small class="mb-1 text-muted">注册用户</small>
+                                                    <h5 class="me-2 mb-0" th:text="${userCount}">10</h5>
+                                                </div>
+                                            </div>
+                                            <!-- 景点总量 -->
+                                            <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                                <i class="mdi mdi-eye me-3 icon-lg text-success"></i>
+                                                <div class="d-flex flex-column justify-content-around">
+                                                    <small class="mb-1 text-muted">景点总量</small>
+                                                    <h5 class="me-2 mb-0" th:text="${scenicCount}">6</h5>
+                                                </div>
+                                            </div>
+                                            <!-- 发帖总量 -->
+                                            <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                                <i class="mdi mdi-comment-text-outline me-3 icon-lg text-info"></i>
+                                                <div class="d-flex flex-column justify-content-around">
+                                                    <small class="mb-1 text-muted">发帖总量</small>
+                                                    <h5 class="me-2 mb-0" th:text="${discussPostCount}">10</h5>
+                                                </div>
+                                            </div>
+                                            <!-- 封禁用户数量 -->
+                                            <div class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                                <i class="mdi mdi-account-off me-3 icon-lg text-danger"></i>
+                                                <div class="d-flex flex-column justify-content-around">
+                                                    <small class="mb-1 text-muted">封禁用户</small>
+                                                    <h5 class="me-2 mb-0" th:text="${banUserCount}">1</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 景点推荐表格 -->
+                <div class="row">
+                    <div class="col-md-12 stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">景点推荐</p>
+                                <div class="input-group">
+                                    <!--添加景点推荐按钮-->
+                                    <button type="button" th:class="|btn btn-icon me-3 mt-2 mt-xl-0 ${scenicRecommendCount==6?'disabled btn-success':'btn-inverse-success'}|" data-toggle="modal" data-target="#addScenicRecommendModal" >
+                                        <i class="mdi mdi-plus text-muted"></i>
+                                    </button>
+                                    <!--删除景点推荐那妞-->
+                                    <button type="button" th:class="|btn btn-icon me-3 mt-2 mt-xl-0 ${scenicRecommendCount==0?'disabled btn-danger':'btn-inverse-danger'}|" data-toggle="modal" data-target="#removeScenicRecommendModal">
+                                        <i class="mdi mdi-delete-forever text-muted"></i>
+                                    </button>
+                                    <!--更换风景图按钮-->
+                                    <button type="button" class="btn btn-inverse-primary btn-icon me-3 mt-2 mt-xl-0" data-toggle="modal" data-target="#addScenicImageModal">
+                                        <i class="mdi mdi-assistant text-muted"></i>
+                                    </button>
+                                </div>
+                                <!--推荐景点信息表格-->
+                                <div class="table-responsive">
+                                    <table id="recent-purchases-listing" class="table text-center">
+                                        <!--表头-->
+                                        <thead>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>景点名称</th>
+                                            <th>价格</th>
+                                            <th>电话</th>
+                                            <th>时间</th>
+                                            <th>图片</th>
+                                        </tr>
+                                        </thead>
+                                        <!--表体-->
+                                        <tbody >
+                                        <tr th:each="scenicListRe:${recommendScenicList}">
+                                            <td th:text="${scenicListRe.scenicList.id}">1</td>
+                                            <td th:text="${scenicListRe.scenicList.scenicName}">故宫</td>
+                                            <td th:text="${scenicListRe.scenicList.price}">60.00</td>
+                                            <td th:text="${scenicListRe.scenicList.phone}">400-618-9090</td>
+                                            <td th:text="${#dates.format(scenicListRe.scenicList.createTime,'yyyy-MM-dd HH:mm:ss')}">2022-11-27 17:07:12</td>
+                                            <td>
+                                                <img th:src="${scenicListRe.scenicList.imageUrl}" class="rounded-0 rounded-sm" style="width: 150px;height: 80px" alt="景点图片">
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 景点推荐表格结束 -->
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- 引入页脚部分 -->
+            <footer class="footer" th:fragment="footer">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="https://xcy.icu"> Fu chen </a>2023</span>
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a href="https://xcy.icu"> xcy.icu  </a> 2023</span>
+                </div>
+            </footer>
+            <!-- 页脚部分结束 -->
+        </div>
+        <!-- 主面板结束 -->
+    </div>
+    <!--主体结束 -->
+</div>
+
+<!--添加景点推荐模态-->
+<div class="modal fade" id="addScenicRecommendModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleaddScenicRecommendModalLabel">景点推荐</h5>
+                <button type="button" class="btn btn-sm btn-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--<form class="forms-sample" method="post" th:action="@{/recommend}">-->
+                    <div class="row">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">推荐景点：</label>
+                            <select id="select" class="form-select" aria-label="Default select example">
+                                <div th:each="serviceScenics:${serviceScenicList}">
+                                    <option th:text="${serviceScenics.scenicName}" th:value="${serviceScenics.id}"></option>
+                                </div>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button onclick="select()" class="btn btn-primary">立即推荐</button>
+                    </div>
+                <!--</form>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--删除景点推荐模态-->
+<div class="modal fade" id="removeScenicRecommendModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleRemoveScenicRecommendModalLabel">取消景点推荐</h5>
+                <button type="button" class="btn btn-sm btn-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--<form class="forms-sample" method="post" th:action="@{/removeRecommend}">-->
+                    <div class="row">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">删除推荐景点：</label>
+                            <select id="selectDel" class="form-select" aria-label="Default select example">
+                                <div th:each="recommendServiceScenics:${recommendServiceScenicList}">
+                                    <option th:text="${recommendServiceScenics.scenicName}" th:value="${recommendServiceScenics.id}"></option>
+                                </div>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button onclick="selectDel()" class="btn btn-primary">取消推荐</button>
+                    </div>
+                <!--</form>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--更换风景图模态-->
+<div class="modal fade" id="addScenicImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleScenicImageModalLabel">更换风景图</h5>
+                <button type="button" class="btn btn-sm btn-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="forms-sample">
+
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label>上传图片</label>
+                            <input type="file" name="img[]" class="file-upload-default">
+                            <div class="input-group col-sm-9">
+                                <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                <span class="input-group-append">
+                          <button class="file-upload-browse btn btn-primary" type="button">上传文件</button>
+                  </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">更换</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 引入插件js -->
+<script th:src="@{/vendors/base/vendor.bundle.base.js}"></script>
+
+<!-- 引入页面插件js -->
+<script th:src="@{/vendors/chart.js/Chart.min.js}"></script>
+<script th:src="@{/vendors/datatables.net/jquery.dataTables.js}"></script>
+<script th:src="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.js}"></script>
+
+<!-- 引入模板js -->
+<script th:src="@{/js/off-canvas.js}"></script>
+<script th:src="@{/js/hoverable-collapse.js}"></script>
+<script th:src="@{/js/template.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+<script th:src="@{/js/data-table.js}"></script>
+<script th:src="@{/js/jquery.dataTables.js}"></script>
+<script th:src="@{/js/dataTables.bootstrap4.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/jquery.cookie.js}" type="text/javascript"></script>
+<script th:src="@{/js/jquery-3.3.1.js}" type="text/javascript"></script>
+
+<!-- 引入上传js -->
+<script th:src="@{/js/file-upload.js}"></script>
+<script th:src="@{/js/index.js}"></script>
+<script th:src="@{/js/global.js}"></script>
+
+</body>
+
+</html>
+

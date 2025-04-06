@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    
+	<link rel="icon" href="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.png"/>
+	<!--首页css-->
+	<link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" th:href="@{/css/global.css}" />
+
+	<title>拼团旅游信息网-首页</title>
+
+</head>
+<body>	
+	<div class="nk-container">
+		<!-- 头部 -->
+		<header class="bg-primary" th:fragment="header">
+			<div class="nk-container">
+				<!-- 导航 -->
+				<nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+					<!-- logo -->
+					<a class="navbar-brand" th:href="@{/index}" style="margin-left: 150px"></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<!-- 功能 -->
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav mr-auto">
+							<!--首页-->
+							<li class="nav-item ml-3 btn-group-vertical">
+								<a class="nav-link" th:href="@{/index}">首页</a>
+							</li>
+
+							<!--景点-->
+							<li class="nav-item ml-3 btn-group-vertical">
+								<a class="nav-link" th:href="@{/scenic-list}">景区信息</a>
+							</li>
+
+
+							<!--收藏-->
+							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser!=null}">
+								<a class="nav-link position-relative" th:href="@{/favorite/collection}">我的收藏</span></a>
+							</li>
+
+							<!--拼团-->
+							<li class="nav-item ml-3 btn-group-vertical">
+								<a class="nav-link" th:href="@{/group}">拼团旅游</a>
+							</li>
+
+							<!--攻略-->
+							<li class="nav-item ml-3 btn-group-vertical">
+								<a class="nav-link" th:href="@{/navigation}">拼旅攻略</a>
+							</li>
+
+
+							<!--消息-->
+							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser!=null}">
+								<a class="nav-link position-relative" th:href="@{/letter/list}">
+									消息
+									<span class="badge badge-danger" th:text="${allUnreadCount!=0?allUnreadCount:''}">
+										12
+									</span>
+								</a>
+							</li>
+
+							<!--登录-->
+							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser==null}">
+								<a class="nav-link" th:href="@{/login}">登录</a>
+							</li>
+
+							<!--个人信息-->
+							<li class="nav-item ml-3 btn-group-vertical dropdown" th:if="${loginUser!=null}">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<img th:src="${loginUser.headerUrl}" class="rounded-circle" style="width:30px;height: 30px"/>
+								</a>
+								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<a class="dropdown-item text-center" th:href="@{|/user/profile/${loginUser.id}|}">个人主页</a>
+									<a class="dropdown-item text-center" th:href="@{/user/setting}">账号设置</a>
+									<a class="dropdown-item text-center" th:href="@{/logout}">退出登录</a>
+									<div class="dropdown-divider"></div>
+									<span class="dropdown-item text-center text-secondary" th:utext="${loginUser.username}"> 名 称 </span>
+								</div>
+							</li>
+						</ul>
+
+						<!-- 搜索 -->
+						<form class="form-inline my-2 my-lg-0" method="get" th:action="@{/scenic-list/search}" style="margin-right: 125px" th:if="${loginUser!=null}">
+							<input class="form-control mr-sm-2" type="search" aria-label="Search" name="keyword" th:value="${keyword}"/>
+							<button class="btn btn-outline-success btn-light my-2 my-sm-0" type="submit">搜索</button>
+						</form>
+
+					</div>
+				</nav>
+			</div>
+		</header>
+
+		<!-- 内容 -->
+		<!-- 轮播图   采用bootstrap完成-->
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+			<ol class="carousel-indicators">
+				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+			</ol>
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img src="https://travel-rotation-chart-1304336794.cos.ap-nanjing.myqcloud.com/banner_1.png" class="d-block w-100" alt="老君山">
+				</div>
+				<div class="carousel-item">
+					<img src="https://travel-rotation-chart-1304336794.cos.ap-nanjing.myqcloud.com/banner_2.png" class="d-block w-100" alt="布达拉宫">
+				</div>
+				<div class="carousel-item">
+					<img src="https://travel-rotation-chart-1304336794.cos.ap-nanjing.myqcloud.com/banner_3.png" class="d-block w-100" alt="玉龙雪山">
+				</div>
+			</div>
+			<button class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</button>
+		</div>
+		<!--轮播图结束-->
+
+		<!-- 正文 -->
+		<section id="content">
+			<!-- 热门景点 -->
+			<section class="scenic_spot">
+				<div class="jx_top">
+
+					<!-- Nav tabs -->
+					<ul class="jx_tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#popularity" aria-controls="popularity" role="tab" data-toggle="tab">热门景点</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="jx_content">
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="popularity">
+							<div class="row" id="popularRoute">
+
+								<!--循环展示-->
+								<div class="col-md-3" th:each="scenicList:${scenicConllectionList}">
+									<a th:href="@{|/scenic-detail/${scenicList.scenic.id}|}">
+										<div class="card" style="width: 18rem;">
+											<img style="width: 286.6px;height: 161px" th:src="${scenicList.scenic.imageUrl}" class="card-img-top" alt="...">
+											<div class="card-body" style="height: 82px">
+												<p class="card-text" th:utext="${scenicList.scenic.introduce}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+											</div>
+										</div>
+									</a>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- 热门景点结束-->
+
+			<!-- 景点推荐-->
+			<section class="scenic_spot" >
+				<div class="jx_top" >
+					<!-- Nav tabs -->
+					<ul class="jx_tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#popularity" aria-controls="popularity" role="tab" data-toggle="tab">景点推荐</a>
+						</li>
+					</ul>
+				</div>
+				<div class="scenic_spot_gn">
+					<div class="guonei_l">
+						<img th:src="@{/img/jingwai_bali.jpg}" alt="">
+					</div>
+					<div class="guone_r">
+						<div class="row" id="indexroutelis" style="margin-right: 16px">
+							<div class="col-md-4"  th:each="scenics:${scenicListByRe}">
+								<a th:href="@{|/scenic-detail/${scenics.scenic.id}|}">
+									<div class="card" style="width: 260px;" >
+										<img th:src="${scenics.scenic.imageUrl}" class="card-img-top" style="height: 159px" alt="...">
+										<div class="card-body" style="height: 100px">
+											<p class="card-text" th:text="${scenics.scenic.introduce}"></p>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- 景点推荐结束-->
+		</section>
+		<!-- 旅游信息展示结束-->
+		<div style="height:200px"></div>
+		<!-- 尾部 -->
+		<footer class="bg-primary" th:fragment="footer">
+
+			<div class="container">
+				<div class="row">
+					<!-- 二维码 -->
+					<div class="col-4 qrcode">
+						<img th:src="@{https://logo-1304336794.cos.ap-nanjing.myqcloud.com/%E4%BC%8F%E8%BE%B0%E5%85%AC%E4%BC%97%E5%8F%B7.jpg}" class="img-thumbnail" style="width:116px;" />
+					</div>
+					<!-- 信息 -->
+					<div class="col-8 detail-info">
+						<!-- 意见反馈 -->
+						<div class="row" th:if="${loginUser!= null}">
+							<div class="col">
+								<ul class="nav">
+									<li class="nav-item">
+										<a class="nav-link text-light" type="button" data-toggle="modal" data-target="#feedback">意见反馈</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!-- 其他信息 -->
+						<div class="row">
+							<div class="col">
+								<ul class="nav btn-group-vertical company-info">
+									<li class="nav-item text-white-50">
+										联系方式：185********(手机)&nbsp;&nbsp;&nbsp;&nbsp;邮箱：fu*******@qq.com
+									</li>
+									<li class="nav-item text-white-50">
+										Copyright © 2022 RedScarf
+									</li>
+									<li class="nav-item text-white-50">
+										*ICP备**********号
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--反馈-->
+			<div class="modal" tabindex="-1" id="feedback" aria-labelledby="feedbackLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">意见反馈</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form method="post" th:action="@{/feedback}">
+								<label>
+									<textarea style="width: 470px" rows="5" name="feedbackContent"></textarea>
+									<input type="hidden" name="userId" th:value="${loginUser}">
+								</label>
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</form>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+
+
+	<!-- 引入js -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+	<script th:src="@{/js/global.js}"></script>
+	<script th:src="@{/js/index.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

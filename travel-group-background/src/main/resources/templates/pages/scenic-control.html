@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>拼团旅游信息管理后台-景点管理</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
+  <link rel="stylesheet" th:href="@{/vendors/base/vendor.bundle.base.css}">
+
+  <!-- endinject -->
+  <!-- inject:css -->
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <!--  <link rel="stylesheet" href="../../css/bootstrap.css">-->
+  <!-- endinject -->
+  <link rel="shortcut icon" href="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.ico" />
+</head>
+
+<body>
+<div class="container-scroller">
+  <header th:replace="index::header">
+    <!-- partial:../../partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="navbar-brand-wrapper d-flex justify-content-center">
+        <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
+          <a class="navbar-brand brand-logo" href="../../index.html"><img src="../../images/logo.svg" alt="logo"/></a>
+          <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="mdi mdi-sort-variant"></span>
+          </button>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav mr-lg-4 w-100">
+          <li class="nav-item nav-search d-none d-lg-block w-100">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="search">
+                  <i class="mdi mdi-magnify"></i>
+                </span>
+              </div>
+              <input type="text" class="form-control" placeholder="Search now" aria-label="search" aria-describedby="search">
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item dropdown me-1">
+            <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-bs-toggle="dropdown">
+              <i class="mdi mdi-message-text mx-0"></i>
+              <span class="count"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="messageDropdown">
+              <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
+              <a class="dropdown-item">
+                <div class="item-thumbnail">
+                  <img src="../../images/faces/face4.jpg" alt="image" class="profile-pic">
+                </div>
+                <div class="item-content flex-grow">
+                  <h6 class="ellipsis font-weight-normal">David Grey
+                  </h6>
+                  <p class="font-weight-light small-text text-muted mb-0">
+                    The meeting is cancelled
+                  </p>
+                </div>
+              </a>
+              <a class="dropdown-item">
+                <div class="item-thumbnail">
+                  <img src="../../images/faces/face2.jpg" alt="image" class="profile-pic">
+                </div>
+                <div class="item-content flex-grow">
+                  <h6 class="ellipsis font-weight-normal">Tim Cook
+                  </h6>
+                  <p class="font-weight-light small-text text-muted mb-0">
+                    New product launch
+                  </p>
+                </div>
+              </a>
+              <a class="dropdown-item">
+                <div class="item-thumbnail">
+                  <img src="../../images/faces/face3.jpg" alt="image" class="profile-pic">
+                </div>
+                <div class="item-content flex-grow">
+                  <h6 class="ellipsis font-weight-normal"> Johnson
+                  </h6>
+                  <p class="font-weight-light small-text text-muted mb-0">
+                    Upcoming board meeting
+                  </p>
+                </div>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item dropdown me-4">
+            <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
+              <i class="mdi mdi-bell mx-0"></i>
+              <span class="count"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
+              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+              <a class="dropdown-item">
+                <div class="item-thumbnail">
+                  <div class="item-icon bg-success">
+                    <i class="mdi mdi-information mx-0"></i>
+                  </div>
+                </div>
+                <div class="item-content">
+                  <h6 class="font-weight-normal">Application Error</h6>
+                  <p class="font-weight-light small-text mb-0 text-muted">
+                    Just now
+                  </p>
+                </div>
+              </a>
+              <a class="dropdown-item">
+                <div class="item-thumbnail">
+                  <div class="item-icon bg-warning">
+                    <i class="mdi mdi-settings mx-0"></i>
+                  </div>
+                </div>
+                <div class="item-content">
+                  <h6 class="font-weight-normal">Settings</h6>
+                  <p class="font-weight-light small-text mb-0 text-muted">
+                    Private message
+                  </p>
+                </div>
+              </a>
+              <a class="dropdown-item">
+                <div class="item-thumbnail">
+                  <div class="item-icon bg-info">
+                    <i class="mdi mdi-account-box mx-0"></i>
+                  </div>
+                </div>
+                <div class="item-content">
+                  <h6 class="font-weight-normal">New user registration</h6>
+                  <p class="font-weight-light small-text mb-0 text-muted">
+                    2 days ago
+                  </p>
+                </div>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face5.jpg" alt="profile"/>
+              <span class="nav-profile-name">Louis Barnett</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item">
+                <i class="mdi mdi-settings text-primary"></i>
+                Settings
+              </a>
+              <a class="dropdown-item">
+                <i class="mdi mdi-logout text-primary"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <!-- page-body-wrapper ends -->
+  </header>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:../../partials/_sidebar.html -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="index::headerPanel">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="../../index.html">
+            <i class="mdi mdi-home menu-icon"></i>
+            <span class="menu-title">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <i class="mdi mdi-circle-outline menu-icon"></i>
+            <span class="menu-title">UI Elements</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="ui-basic">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/buttons.html">Buttons</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/typography.html">Typography</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/forms/basic_elements.html">
+            <i class="mdi mdi-view-headline menu-icon"></i>
+            <span class="menu-title">Form elements</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/charts/chartjs.html">
+            <i class="mdi mdi-chart-pie menu-icon"></i>
+            <span class="menu-title">Charts</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/tables/basic-table.html">
+            <i class="mdi mdi-grid-large menu-icon"></i>
+            <span class="menu-title">Tables</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/icons/mdi.html">
+            <i class="mdi mdi-emoticon menu-icon"></i>
+            <span class="menu-title">Icons</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+            <i class="mdi mdi-account menu-icon"></i>
+            <span class="menu-title">User Pages</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="auth">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login.html"> Login </a></li>
+              <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login-2.html"> Login 2 </a></li>
+              <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register.html"> Register </a></li>
+              <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register-2.html"> Register 2 </a></li>
+              <li class="nav-item"> <a class="nav-link" href="../../pages/samples/lock-screen.html"> Lockscreen </a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../documentation/documentation.html">
+            <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+            <span class="menu-title">Documentation</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="row">
+          <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">景点管理</h4>
+                <div class="input-group">
+                  <button type="button" class="btn btn-inverse-success btn-icon me-3 mt-2 mt-xl-0" data-toggle="modal" data-target="#addScenicModal">
+                    <i class="mdi mdi-plus text-muted"></i>
+                  </button>
+                  <button type="button" onclick="isChecked()" class="btn btn-inverse-danger btn-icon me-3 mt-2 mt-xl-0" data-toggle="modal" data-target="#deleteScenicModal">
+                    <i class="mdi mdi-delete-forever text-muted"></i>
+                  </button>
+                  <form class="forms-sample" method="get"  th:action="@{/scenic/search}">
+                    <div class="input-group-prepend" style="width: 400px">
+                      <div class="input-group" id="search1">
+                        <i class="mdi mdi-magnify input-group-text" style="height: 40px;"></i>
+                        <input type="text" th:class="|form-control form-control-sm ${searchMsg!=null?'is-invalid':''}|" name="keyword" placeholder="请输入关键字">
+                        <button type="submit" class="btn btn-primary">搜索</button>
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+
+                <div class="table-responsive pt-3" style="margin-bottom: 25px">
+                  <table class="table table-bordered text-center">
+                    <thead>
+                    <tr>
+                      <th>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" name="allSel" id="all" class="form-check-input">
+                          </label>
+                        </div>
+                      </th>
+                      <th>
+                        id
+                      </th>
+                      <th>
+                        景点名称
+                      </th>
+                      <th>
+                        级别
+                      </th>
+                      <th>
+                        价格
+                      </th>
+                      <th>
+                        电话
+                      </th>
+                      <th>
+                        地址
+                      </th>
+                      <th>
+                        时间
+                      </th>
+                      <th>
+                        图片
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody id="checklist">
+                    <tr th:each="allScenic:${scenicList}">
+                      <th>
+                        <div class="form-check" >
+                          <label class="form-check-label">
+                            <input type="checkbox" name="select"  class="form-check-input" th:value="${allScenic.scenic.id}">
+                            <!--<input type="hidden" >-->
+                          </label>
+                        </div>
+                      </th>
+                      <td th:text="${allScenic.scenic.id}">
+                        1
+                      </td>
+                      <td th:text="${allScenic.scenic.scenicName}">
+                        故宫
+                      </td>
+                      <td th:text="${allScenic.scenic.merchant}">
+                        故宫博物院
+                      </td>
+                      <td>
+                        ￥<span th:text="${allScenic.scenic.price}">60.00</span>
+                      </td>
+                      <td th:text="${allScenic.scenic.phone}">
+                        400-618-9090
+                      </td>
+                      <td th:text="${allScenic.scenic.address}">
+                        北京朝阳区
+                      </td>
+                      <td th:text="${#dates.format(allScenic.scenic.createTime,'yyyy-MM-dd HH:mm:ss')}">
+                        2022-11-27 17:07:12
+                      </td>
+                      <td>
+                        <img th:src="${allScenic.scenic.imageUrl}" class="rounded-0 rounded-lg" style="width: 180px;height: 100px">
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- 分页 -->
+                <nav class="mt-5" th:if="${page.rows>0}">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                      <a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+                    </li>
+                    <li th:class="|page-item ${page.current==1?'disabled':''}|">
+                      <a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a>
+                    </li>
+                    <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+                      <a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+                    </li>
+                    <li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+                      <a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+                    </li>
+                  </ul>
+                </nav>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="addScenicModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">添加景点</h5>
+              <button type="button" class="btn btn-sm btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="forms-sample" id="addScenic"  enctype="multipart/form-data" method="post" th:action="@{/addScenic}">
+                <div class="row">
+                  <div class="form-group row col-md-6">
+                    <label for="scenicName" class="col-sm-3 col-form-label">景点名称：</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="scenicName" name="scenicName" placeholder="" required>
+                      <div class="invalid-feedback" id="scenicNameMsg"></div>
+                    </div>
+                  </div>
+                  <div class="form-group row col-md-6">
+                    <label for="Merchant" class="col-sm-3 col-form-label">级别：</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="merchant" name="merchant" placeholder="" required>
+                      <div class="invalid-feedback" id="merchantMsg"></div>
+                    </div>
+                  </div>
+                  <div class="form-group row col-md-6">
+                    <label for="price" class="col-sm-3 col-form-label">价格：</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="price" name="price" placeholder="" required>
+                      <div class="invalid-feedback" id="priceMsg"></div>
+                    </div>
+                  </div>
+                  <div class="form-group row col-md-6">
+                    <label for="phone" class="col-sm-3 col-form-label">电话：</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="phone" name="phone" placeholder="" required>
+                      <div class="invalid-feedback" id="phoneMsg"></div>
+                    </div>
+                  </div>
+                  <div class="form-group row col-md-6">
+                    <label for="address" class="col-sm-3 col-form-label">地址：</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="address" name="address" placeholder="" required>
+                      <div class="invalid-feedback" id="addressMsg"></div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>景点图片：</label>
+                    <input type="file" name="scenicImg" class="file-upload-default" id="scenicImg" required>
+                    <div class="input-group col-xs-12">
+                      <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image" required>
+                      <div class="invalid-feedback" id="scenicImgMsg"></div>
+                      <span class="input-group-append">
+                          <button class="file-upload-browse btn btn-primary" type="button">上传文件</button>
+                        </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="scenicIntroduce">景点简介：</label>
+                    <input type="text" class="form-control" id="scenicIntroduce" name="scenicIntroduce" placeholder="请输入景点简介" required>
+                    <div class="invalid-feedback" id="scenicIntroduceMsg"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="scenicContent">景点说明：</label>
+                    <input type="text" class="form-control" id="scenicContent" name="scenicContent" placeholder="请输入景点说明" required>
+                    <div class="invalid-feedback" id="scenicContentMsg"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="notice">旅游须知：</label>
+                    <textarea class="form-control" id="notice" name="notice" rows="5" required></textarea>
+                    <div class="invalid-feedback" id="noticeMsg"></div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                  <button type="submit" onclick="addScenic()" class="btn btn-primary">立即保存</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="deleteScenicModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">提示</h5>
+              <button type="button" class=" btn btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="removeRe">
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+              <a onclick="checkeds()" class="btn btn-primary" data-dismiss="modal">确认</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- content-wrapper ends -->
+      <!-- partial:../../partials/_footer.html -->
+      <footer class="footer" th:replace="index::footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="https://www.bootstrapdash.com/" target="_blank">bootstrapdash.com </a>2021</span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a href="https://www.bootstrapdash.com/" target="_blank"> Bootstrap dashboard  </a> templates</span>
+        </div>
+      </footer>
+      <!-- partial -->
+    </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+
+
+<script th:src="@{/vendors/base/vendor.bundle.base.js}"></script>
+
+<script th:src="@{/js/off-canvas.js}"></script>
+<script th:src="@{/js/hoverable-collapse.js}"></script>
+<script th:src="@{/js/template.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+
+<script th:src="@{/js/file-upload.js}"></script>
+
+<script th:src="@{/js/scenic-control.js}"></script>
+
+
+
+
+</body>
+
+</html>

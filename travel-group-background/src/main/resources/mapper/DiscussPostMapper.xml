@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuchen.travel.background.mapper.DiscussPostMapper">
+
+    <!--查询帖子数量-->
+    <select id="selectPostCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM discuss_post
+        WHERE status != 2;
+    </select>
+    <!--查询帖子信息-->
+    <select id="selectPost" resultType="DiscussPost">
+        SELECT id, user_id, title, content, type, status, create_time, comment_count, score
+        FROM discuss_post
+        WHERE status != 2
+        ORDER BY type DESC, status DESC, score DESC, create_time DESC
+        LIMIT #{offset}, #{limit};
+    </select>
+    <!--插入新帖子信息-->
+    <insert id="insertDiscussPost">
+        INSERT INTO discuss_post (user_id, title, content, type, status, create_time)
+        VALUES (#{post.userId}, #{post.title}, #{post.content}, #{post.type}, 0, #{post.createTime});
+    </insert>
+    <!--查询帖子信息，通过id排序-->
+    <select id="selectPostSortById" resultType="DiscussPost">
+        SELECT id, user_id, title, content, type, status, create_time, comment_count, score
+        FROM discuss_post
+        WHERE status != 2
+        ORDER BY id
+        LIMIT #{offset}, #{limit};
+    </select>
+    <!--查询帖子，通过时间排序-->
+    <select id="selectPostSortByTime" resultType="DiscussPost">
+        SELECT id, user_id, title, content, type, status, create_time, comment_count, score
+        FROM discuss_post
+        WHERE status != 2
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{limit};
+    </select>
+    <!--查询管理员发布的帖子信息-->
+    <select id="selectPostToAdmin" resultType="DiscussPost">
+        SELECT id, user_id, title, content, type, status, create_time, comment_count, score
+        FROM discuss_post
+        WHERE status != 2 AND type > 0
+        ORDER BY type DESC, create_time DESC
+        LIMIT #{offset}, #{limit};
+    </select>
+    <!--查询符合关键词的帖子数量-->
+    <select id="selectPostCountByKeyWord" resultType="Integer">
+        SELECT COUNT(*)
+        FROM discuss_post
+        WHERE status != 2 AND title LIKE "%"#{keyword}"%";
+    </select>
+    <!--查询符合关键词的帖子信息-->
+    <select id="selectPostByKeyword" resultType="DiscussPost">
+        SELECT id, user_id, title, content, type, status, create_time, comment_count, score
+        FROM discuss_post
+        WHERE status != 2 AND title LIKE "%"#{keyword}"%"
+        ORDER BY type DESC, create_time DESC
+        LIMIT #{offset}, #{limit};
+    </select>
+    <!--修改帖子状态-->
+    <update id="updatePostStatus">
+        UPDATE discuss_post
+        <set>
+            <if test="status!=2">
+                status = 2
+            </if>
+            <if test="status==2">
+                status = 0
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <!--查询撤销帖子-->
+    <select id="selectPostCancel" resultType="DiscussPost">
+        SELECT id, user_id, title, content, type, status, create_time, comment_count, score
+        FROM discuss_post
+        WHERE status = 2
+        ORDER BY type DESC, create_time DESC
+        LIMIT #{offset}, #{limit};
+    </select>
+    <!--查询管理员发帖数量-->
+    <select id="selectPostCountToAdmin" resultType="Integer">
+        SELECT COUNT(*)
+        FROM discuss_post
+        WHERE status != 2 AND type > 0;
+    </select>
+    <!--查询撤销帖子数量-->
+    <select id="selectPostCountToCancel" resultType="Integer">
+        SELECT COUNT(*)
+        FROM discuss_post
+        WHERE status = 2;
+    </select>
+</mapper>

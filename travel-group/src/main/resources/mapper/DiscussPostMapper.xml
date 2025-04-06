@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuchen.travel.mapper.DiscussPostMapper">
+	<sql id="selectFields">
+		id, user_id, title, content, type, status, create_time, comment_count, score
+	</sql>
+	<!--查询用户帖子-->
+	<select id="selectDiscussPosts" resultType="DiscussPost">
+		select <include refid="selectFields"></include>
+		from discuss_post
+		where status != 2
+		<if test="userId!=0">
+			and user_id = #{userId}
+		</if>
+		<if test="orderMode==0">
+			order by type desc, create_time desc
+		</if>
+		<if test="orderMode==1">
+			order by type desc, score desc, create_time desc
+		</if>
+		limit #{offset}, #{limit}
+	</select>
+	
+	<!--查询用户发帖条数-->
+	<select id="selectDiscussPostRows" resultType="Integer">
+		select count(id)
+		from discuss_post
+		where status != 2
+		<if test="userId!=0">
+			and user_id = #{userId}
+		</if>
+	</select>
+
+	<!--根据用户id查询帖子-->
+	<select id="selectDiscussPostByUserId" resultType="DiscussPost">
+		select <include refid="selectFields"></include>
+		from discuss_post
+		where user_id = #{id}
+		order by create_time desc
+		limit #{offset}, #{limit}
+	</select>
+	
+	<!--保存帖子-->
+	<insert id="insertDiscussPost" parameterType="DiscussPost" keyProperty="id">
+		insert into discuss_post (user_id, title, content, type, status, create_time, comment_count, score)
+		values (#{userId}, #{title}, #{content}, #{type},
+		        #{status}, #{createTime}, #{commentCount}, #{score})
+	</insert>
+	
+	<!--查询帖子详情-->
+	<select id="selectDiscussPost" resultType="DiscussPost">
+		select <include refid="selectFields"></include>
+		from discuss_post
+		where id = #{id}
+	</select>
+
+	<!--模糊查询帖子总数-->
+    <select id="selectToKeywordCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM discuss_post
+		WHERE discuss_post.status != 2 AND title LIKE "%"#{keyword}"%"
+	</select>
+
+	<!-- 根据关键词查询帖子 -->
+	<select id="selectToDiscussionPost" resultType="DiscussPost">
+		SELECT *
+		FROM discuss_post
+		where discuss_post.status != 2 AND title LIKE "%"#{keyword}"%"
+		LIMIT #{offset}, #{limit}
+	</select>
+
+	<!--更新帖子的数量-->
+	<update id="updateCommentCount">
+		update discuss_post
+		set comment_count = #{commentCount}
+		where id = #{id}
+	</update>
+	<!--修改类型-->
+	<update id="updateType">
+		update discuss_post
+		set type = #{type}
+		where id = #{id}
+	</update>
+	<!--修改状态-->
+	<update id="updateStatus">
+		update discuss_post
+		set status = #{status}
+		where id = #{id}
+	</update>
+	<!--修改分数-->
+	<update id="updateScore">
+		update discuss_post set score = #{score} where id = #{id}
+	</update>
+
+</mapper>

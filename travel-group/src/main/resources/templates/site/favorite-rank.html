@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>拼团旅游信息网-我的收藏</title>
+    <!--引入logo，css-->
+    <link rel="icon" href="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.png"/>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/search1.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+
+</head>
+<body>
+
+<div class="nk-container">
+    <!-- 头部 start -->
+    <!--引入头部-->
+    <header class="bg-blue" th:replace="index::header"></header>
+
+    <!-- 内容 -->
+    <div class="main">
+        <div class="container" style="width: 1200px ;">
+            <div class="position-relative">
+                <!-- 筛选条件 -->
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/favorite/collection}">我的收藏</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/favorite/ranking}">收藏排行榜</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-4">
+                <div class="col mb-4" th:each="scenicAll:${favoriteRanking}">
+
+                    <div class="card h-100">
+                        <a th:href="@{|/scenic-detail/${scenicAll.scenic.id}|}">
+                            <img th:src="${scenicAll.scenic.imageUrl}" class="card-img-top" style="width: 251px;height: 142px" th:alt="${scenicAll.scenic.scenicName}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${scenicAll.scenic.scenicName}">故宫</h5>
+                            <p class="card-text" style="color: #888888;" th:text="${scenicAll.scenic.introduce}">故宫又名紫禁城，是中国乃至世界上保存最完整，规模最大的木质结构古建筑群，被誉为“世界五大宫之首”</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted" th:text="${#dates.format(scenicAll.scenic.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 15:32:18</small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+             <!--分页 -->
+            <nav class="mt-5" th:if="${page.rows>0}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+                    </li>
+                    <li th:class="|page-item ${page.current==1?'disabled':''}|">
+                        <a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a>
+                    </li>
+                    <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+                        <a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+                    </li>
+                    <li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+                        <a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="page_num_inf" style="float: right; margin-right: 50px;margin-top: -20px">
+                <i></i>共
+                <span id="totalPage" th:text="|${favoriteCountAll / 8 + 1 }|">10</span>&nbsp;页&nbsp;<span id="totalCount" th:text="${favoriteCountAll}">80</span>&nbsp;条
+            </div>
+        </div>
+    </div>
+
+    <!--<div style="height:200px"></div>-->
+    <!--引入尾部-->
+    <footer id="footer" th:replace="index::footer"></footer>
+</div>
+
+<!--引入js-->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/global.js}"></script>
+<script th:src="@{/js/index.js}"></script>
+
+</body>
+</html>

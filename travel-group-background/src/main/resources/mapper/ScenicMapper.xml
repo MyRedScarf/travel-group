@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuchen.travel.background.mapper.ScenicMapper">
+    <!--插入景点信息-->
+    <insert id="insertScenic">
+        INSERT INTO
+            scenic (scenic_name, introduce, content, image_url, notice, price, merchant, phone, address, create_time)
+        values (#{scenic.scenicName},#{scenic.introduce},
+                #{scenic.content},#{scenic.imageUrl},
+                #{scenic.notice},#{scenic.price},
+                #{scenic.merchant},#{scenic.phone},
+                #{scenic.address},#{scenic.createTime});
+    </insert>
+    <!--推荐景点-->
+    <update id="recommend">
+        UPDATE scenic
+        SET status = 1
+        WHERE id = #{id};
+    </update>
+    <!--修改推荐景点状态-->
+    <update id="removeRecommend">
+        UPDATE scenic
+        SET status = 0
+        WHERE id = #{id}
+    </update>
+    <!--修改景点信息-->
+    <update id="updateScenic">
+        UPDATE scenic
+        SET scenic_name = #{scenic.scenicName},
+            introduce = #{scenic.introduce},
+            content = #{scenic.content},
+            image_url = #{scenic.imageUrl},
+            notice = #{scenic.notice},
+            price = #{scenic.price},
+            merchant = #{scenic.merchant},
+            phone = #{scenic.phone},
+            address = #{scenic.address},
+            create_time = #{scenic.createTime},
+            status = 0
+        WHERE id = #{scenic.id};
+    </update>
+    <update id="updateScenicById">
+        update scenic set status = 2
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--查询推荐景点-->
+    <select id="selectRecommendScenic" resultType="Scenic">
+        SELECT id, scenic_name, image_url, price, phone, create_time, status
+        FROM scenic
+        WHERE status = 1
+        ORDER BY id
+        Limit 0, 6;
+    </select>
+
+    <!--查询景点总数-->
+    <select id="selectScenicCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM scenic
+        WHERE status != 2;
+    </select>
+
+    <!--分页查询全部景点-->
+    <select id="selectScenic" resultType="Scenic">
+        SELECT id, scenic_name ,image_url, price, merchant, phone, address, create_time
+        FROM scenic
+        WHERE status != 2
+        ORDER BY id
+        LIMIT #{offset}, #{limit};
+    </select>
+    <!--查询指定景点是否存在-->
+    <select id="selectScenicExist" resultType="Scenic">
+        SELECT id, scenic_name
+        FROM scenic
+        WHERE scenic_name = #{scenicName} AND status != 2
+    </select>
+    <select id="selectScenicRecommendCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM scenic
+        WHERE type = 1;
+    </select>
+
+    <select id="selectCountByKeyword" resultType="Integer">
+        SELECT COUNT(*)
+        FROM scenic
+        WHERE scenic_name LIKE "%"#{keyword}"%";
+    </select>
+    <select id="selectScenicByKeyword" resultType="Scenic">
+        SELECT id, scenic_name, merchant, price, phone, address, create_time, image_url
+        FROM scenic
+        WHERE status != 2 AND scenic_name LIKE "%"#{keyword}"%";
+    </select>
+    <select id="selectScenicList" resultType="com.fuchen.travel.background.entity.Scenic">
+        SELECT *
+        FROM scenic
+        WHERE status = 0
+    </select>
+    <select id="selectRecommendScenicList" resultType="com.fuchen.travel.background.entity.Scenic">
+        SELECT *
+        FROM scenic
+        WHERE status = 1
+    </select>
+
+</mapper>

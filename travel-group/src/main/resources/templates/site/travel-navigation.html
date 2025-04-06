@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>拼旅攻略</title>
+    <link rel="icon" href="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.png"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+</head>
+<body>
+    <div class="nk-container">
+        <!-- 引入头部 -->
+        <header class="bg-dark sticky-top" th:replace="index::header"></header>
+        <div class="main">
+            <div class="container" style="width: 2200px;">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-4" th:each="travel:${travelIntroductionList}">
+                            <a th:href="|/travel/navigation/introduction/${travel.id}|">
+                            <!--<a href="https://travel-introduction-1304336794.cos.ap-nanjing.myqcloud.com/%E6%97%85%E6%B8%B8%E6%8C%87%E5%8D%97.html">-->
+                                <div class="card mb-3">
+                                    <img th:src="${travel.fontImage}" class="card-img" style="border: 1px solid #1d2124; height: 200px" alt="">
+                                    <div class="card-body" style="height: 15px; background-color: #4d83ff  ">
+                                        <h5 class="card-title text-center font-size-14" style="margin-top: -8px" th:text="${travel.title}">Card title</h5>
+                                        <!--<p class="card-text" th:text="${travel.notice}">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>-->
+                                        <!--<p class="card-text"><small class="text-muted" th:text="${travel.createTime}">Last updated 3 mins ago</small></p>-->
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 分页 -->
+                <nav class="mt-5" th:if="${page.rows>0}">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+                        </li>
+                        <li th:class="|page-item ${page.current==1?'disabled':''}|">
+                            <a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a>
+                        </li>
+                        <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+                            <a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+                        </li>
+                        <li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+                            <a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/global.js}"></script>
+</body>
+</html>

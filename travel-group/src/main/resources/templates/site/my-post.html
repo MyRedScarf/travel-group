@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!--引入logo，css-->
+	<link rel="icon" href="https://travel-logo-1304336794.cos.ap-nanjing.myqcloud.com/logo.png"/>
+
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" th:href="@{/css/global.css}" />
+	<title>拼团旅游信息网-个人主页</title>
+</head>
+<body>
+	<div class="nk-container">
+		<!-- 头部 -->
+		<header class="bg-dark sticky-top" th:replace="index::header"></header>
+
+		<!-- 内容 -->
+		<div class="main">
+			<div class="container">
+				<!-- 选项 -->
+				<div class="position-relative">
+					<ul class="nav nav-tabs">
+						<li class="nav-item">
+							<a class="nav-link"th:href="@{|/user/profile/${loginUser.id}|}">个人信息</a>
+						</li>
+						<li class="nav-item" th:if="${loginUser!=null}">
+							<a class="nav-link active" th:href="@{/user/my-post}">我的帖子</a>
+						</li>
+						<li class="nav-item" th:if="${loginUser!=null}">
+							<a class="nav-link" th:href="@{/user/my-reply}">我的回复</a>
+						</li>
+					</ul>
+					<a th:href="@{|/user/profile/${loginUser.id}|}" class="text-muted position-absolute rt-0">返回个人主页&gt;</a>
+				</div>
+				<!-- 我的帖子 -->
+				<div class="mt-4">
+					<h6><b class="square"></b> 发布的帖子(<span th:text="${myDiscussPostCount}"></span>)</h6>
+					<!--帖子列表-->
+					<ul class="list-unstyled mt-4 pl-3 pr-3" th:each="myPost:${myDiscussPosts}">
+						<li class="border-bottom pb-3 mt-4">
+							<div class="font-size-16 text-info">
+								<a class="text-primary" th:href="@{|/discuss/detail/${myPost.post.id}|}" th:utext="${myPost.post.title}" >备战春招，面试刷题跟他复习，一个月全搞定！</a>
+							</div>
+							<div class="mt-1 font-size-14" th:utext="${myPost.post.content}">
+
+							</div>
+							<div class="text-right font-size-12 text-muted">
+								赞 <i class="mr-3" th:text="${myPost.likeCount}">11</i>
+								发布于 <b th:text="${#dates.format(myPost.post.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 10:10:10</b>
+							</div>
+						</li>
+					</ul>
+					<!-- 分页 -->
+					<nav class="mt-5" th:if="${page.rows>0}">
+						<ul class="pagination justify-content-center">
+							<li class="page-item">
+								<a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+							</li>
+							<li th:class="|page-item ${page.current==1?'disabled':''}|">
+								<a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a>
+							</li>
+							<li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+								<a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+							</li>
+							<li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+								<a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+							</li>
+						</ul>
+					</nav>					
+				</div>				
+			</div>
+		</div>
+
+		<!-- 尾部 -->
+		<footer class="bg-dark" th:replace="index::footer"></footer>
+	</div>
+
+	<!--引入js-->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/global.js}"></script>
+	<script th:src="@{/js/profile.js}"></script>
+</body>
+</html>
